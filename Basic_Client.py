@@ -4,6 +4,7 @@ import sys
 s = socket.socket()             # Create a socket object
 
 def main(serverAddr, serverPort):
+    serverPort = int(serverPort)
     s.connect((serverAddr, serverPort))
     s.send("Hello server!")
 
