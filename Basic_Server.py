@@ -21,10 +21,11 @@ def fetch_local_ipv6_address(port=50000):
   sockaddr = entry0[-1]
   return sockaddr
 
-def ipv6_echo_server(sockaddr):
+def ipv6_echo_server():
   # Echo server program
 
   s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
+  sockaddr = fetch_local_ipv6_address()
   s.bind(sockaddr)
   s.listen(1)
   print ("server opened socket connection:", s, ", address: '%s'" % sockaddr[0])
@@ -37,35 +38,4 @@ def ipv6_echo_server(sockaddr):
     conn.send(data)
     conn.close()
 
-def ipv6_echo_client(sockaddr):
-  # Echo client program
-  # use hostname or port number or use 'sockaddr' to open the connection
-
-  #HOST = 'localhost'
-  #PORT = 10008 # The same port as used by the server
-  s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-  #s.connect((HOST, PORT))
-  s.connect(sockaddr)
-
-  print ("client opened socket connection:", s.getsockname())
-  data = 'Hello, world! -> via IPv6 :-)'
-  print ('Client is sending:', repr(data))
-
-  s.send(data.encode())
-  data = s.recv(1024).decode()
-  s.close()
-  print ('Client received response:', repr(data))
-
-  try:
-  # fetch the local IPv6 address
-    local_ipv6_addr = fetch_local_ipv6_address()
-    t = threading.Thread(target=ipv6_echo_server, args=(local_ipv6_addr,))
-    t.start()
-
-    time.sleep(1)
-    ipv6_echo_client(local_ipv6_addr)
-
-  except Exception as e:
-    print ("Error occurred: ", e)
-
-  print ("bye.")
+ipv6_echo_server()
