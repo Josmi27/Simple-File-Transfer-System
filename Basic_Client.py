@@ -5,7 +5,9 @@ s = socket.socket()             # Create a socket object
 
 def main(serverAddr, serverPort):
     serverPort = int(serverPort)
-    s.connect((serverAddr, serverPort))
+    
+    s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM, 0)
+    s.connect((serverAddr, serverPort, 0, 0))
     s.send("Hello server!")
 
     with open('received_file', 'wb') as f:
