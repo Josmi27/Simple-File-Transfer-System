@@ -8,7 +8,7 @@ def main(serverAddr, serverPort):
     
     s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM, 0)
     s.connect((serverAddr, serverPort, 0, 0))
-    s.send(b"Hello server!")
+    s.send(b"resource.txt")
 
 
     while True:
