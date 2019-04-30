@@ -4,6 +4,7 @@ A simple example of an IPv6 server/client written in Python.
 import threading
 import socket
 import time
+import sys
 
 def fetch_local_ipv6_address(addr, port):
   # try to detect whether IPv6 is supported at the present system and
