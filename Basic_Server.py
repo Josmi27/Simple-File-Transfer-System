@@ -35,9 +35,17 @@ def main(addr, port):
   time.sleep(1)
   print ('Server: Connected by', addr)
   if True: # answer a single request
-    data = conn.recv(1024)
-    conn.send(data)
-    conn.close()
+    data = self.conn.recv(1024)
+    if not data: break
+    try:
+        f = open(data.decode(), 'r')
+        contents = f.read()
+        f.close()
+        self.conn.send(contents.encode())
+
+    except FileNotFoundError:
+        self.conn.send("File Not Found\n".encode())
+        # Keep preset values`
 
 
 
