@@ -5,13 +5,13 @@ import threading
 import socket
 import time
 
-def fetch_local_ipv6_address(port=50000):
+def fetch_local_ipv6_address(addr, port):
   # try to detect whether IPv6 is supported at the present system and
   # fetch the IPv6 address of localhost.
   if not socket.has_ipv6:
     raise Exception("the local machine has no IPv6 support enabled")
 
-  addrs = socket.getaddrinfo("localhost", port, socket.AF_INET6, 0, socket.SOL_TCP)
+  addrs = socket.getaddrinfo(addr, port, socket.AF_INET6, 0, socket.SOL_TCP)
   # example output: [(23, 0, 6, '', ('::1', 10008, 0, 0))]
 
   if len(addrs) == 0:
@@ -21,11 +21,11 @@ def fetch_local_ipv6_address(port=50000):
   sockaddr = entry0[-1]
   return sockaddr
 
-def ipv6_echo_server():
+def main(addr, port):
   # Echo server program
 
   s = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
-  sockaddr = fetch_local_ipv6_address()
+  sockaddr = fetch_local_ipv6_address(addr, port)
   s.bind(sockaddr)
   s.listen(1)
   print ("server opened socket connection:", s, ", address: '%s'" % sockaddr[0])
@@ -38,4 +38,14 @@ def ipv6_echo_server():
     conn.send(data)
     conn.close()
 
-ipv6_echo_server()
+
+
+
+if __name__ == "__main__":
+    serverAddr = 'localhost'
+    serverPort = 8080
+    if len(sys.argv) > 1:
+        serverAddr = sys.argv[1]
+    if len(sys.argv) > 2:
+        serverPort = sys.argv[2]
+    main(serverAddr, serverPort)
