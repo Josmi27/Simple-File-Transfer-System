@@ -42,12 +42,12 @@ def main(addr, port):
         contents = f.read()
         f.close()
         self.conn.send(contents.encode())
-
+        
     except FileNotFoundError:
         self.conn.send("File Not Found\n".encode())
         # Keep preset values`
 
-
+    conn.close()
 
 
 if __name__ == "__main__":
