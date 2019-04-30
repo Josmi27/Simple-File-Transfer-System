@@ -36,7 +36,8 @@ def main(addr, port):
   print ('Server: Connected by', addr)
   if True: # answer a single request
     data = self.conn.recv(1024)
-    if not data: break
+    if not data:
+      break
     try:
         f = open(data.decode(), 'r')
         contents = f.read()
