@@ -37,7 +37,7 @@ def main(addr, port):
   if True: # answer a single request
     data = self.conn.recv(1024)
     if not data:
-      break
+        break
     try:
         f = open(data.decode(), 'r')
         contents = f.read()
