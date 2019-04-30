@@ -10,18 +10,24 @@ def main(serverAddr, serverPort):
     s.connect((serverAddr, serverPort, 0, 0))
     s.send(b"Hello server!")
 
-    with open('received_file', 'wb') as f:
-        print('file opened')
-        while True:
-            print('receiving data...')
-            data = s.recv(1024)
-            print('data=%s', (data))
-            if not data:
-                break
-            # write data to a file
-            f.write(data)
 
-    f.close()
+    while True:
+        print('receiving data...')
+        data = s.recv(1024)
+        contents = data.decode()
+
+        if(contents == "File Not Found\n"):
+            print("Client requested invalid filename")
+
+        else:
+            with open('received.txt', 'w') as writer:
+                writer.write(contents)
+                writer.close()
+                f = open('received.txt', 'r')
+                c = f.read()
+                print(c)
+                f.close()
+
     print('Successfully get the file')
     s.close()
     print('connection closed')
